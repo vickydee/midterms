@@ -28,6 +28,7 @@ DEFINITE_ARTICLE  NOUN  VERB  DEFINITE_ARTICLE  NOUN  PERIOD
 **Separators**: Whitespace or specific chars (e.g., &, !) force the lexer to stop and return the current longest match.
 
 
+![](https://github.com/vickydee/midterms/blob/master/Screenshot%202026-03-04%20115236.png?raw=true)
 
 
 **Ambiguous Grammar**: Exists a string has two different parse trees OR two different leftmost derivations OR two different rightmost derivations
@@ -87,3 +88,98 @@ Two different parse trees exist:
 ```
 id + (id * id)
 ```
+
+## 5. Top-Down & Predictive Parsing
+
+### Top-Down Parsing
+Start from the **start symbol** and expand downward to build the parse tree.
+
+### Predictive Recursive Descent
+* **No backtracking**
+* The **next token (lookahead)** determines which rule to apply.
+
+### Conditions for a Predictive Parser
+
+For rules: `A → α` and `A → β`
+
+Must satisfy: `FIRST(α) ∩ FIRST(β) = ∅`
+
+Their FIRST sets **must not overlap**.
+
+If: `A ⇒* ε`
+
+Then: `FIRST(A) ∩ FOLLOW(A) = ∅`
+
+If a symbol is **nullable**, its FIRST and FOLLOW sets must **not overlap**.
+
+---
+
+## 6. FIRST Sets
+
+`FIRST(α)` = set of **terminals (and possibly ε)** that can begin strings derived from `α`.
+
+### Rules
+
+`FIRST(ε) = { ε }`
+
+For terminal `a`: `FIRST(a) = { a }`
+
+If: `A → Bα`
+
+Then: `FIRST(B) − { ε } ⊆ FIRST(A)`
+
+Add everything in `FIRST(B)` **except ε** to `FIRST(A)`.
+
+If: `A → B₁ B₂ … Bₖ α` and `ε ∈ FIRST(B₁), … , ε ∈ FIRST(Bₖ)`
+
+Then: `FIRST(α) − { ε } ⊆ FIRST(A)`
+
+If: `A → B₁ B₂ … Bₖ` and **every** `FIRST(Bᵢ)` contains `ε`
+
+Then: `ε ∈ FIRST(A)`
+
+Add `ε` only if **A is nullable**.
+
+---
+
+## 7. FOLLOW Sets
+
+`FOLLOW(A)` = terminals and `$` (end-of-input) that can appear **immediately after A**.
+
+Important: `ε ∉ FOLLOW`
+
+### Rules
+
+Start symbol rule: `$ ∈ FOLLOW(S)`
+
+If: `A → α B C`
+
+Then: `FIRST(C) − { ε } ⊆ FOLLOW(B)`
+
+If: `A → α B`
+
+Then: `FOLLOW(A) ⊆ FOLLOW(B)`
+
+If: `A → α B C` and `ε ∈ FIRST(C)`
+
+Then: `FOLLOW(A) ⊆ FOLLOW(B)`
+
+## HW 1
+
+t1 = SUPPERID("supper22")
+
+t2 = CRAZYID(”__crazy”)
+
+t3 = ID("abc")
+
+t4 = ID("_11")
+
+t5 = ID("_11")
+
+t6 = TI("abcd1e")
+
+t7 = ID("abc")
+
+t8 = ID("d1")
+
+![](https://github.com/vickydee/midterms/blob/master/Screenshot%202026-03-04%20115325.png?raw=true)
